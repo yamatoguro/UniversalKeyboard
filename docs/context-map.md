@@ -44,7 +44,8 @@ qual layout o host está usando. Ver §7.
 | *(hardware)* | Malha de 112 teclas, 112 displays, driver de tela, placa do Pi | — | bancada |
 
 Além dos três repos de produto, a raiz `UniversalKeyboard/` é um **repo guarda-chuva**: versiona
-`docs/` e `.github/` e registra cada subrepo como gitlink (modo `160000`), sem `.gitmodules`.
+`docs/` e `.github/` e registra cada subrepo como submódulo git (`.gitmodules` com URLs
+relativas).
 Não contém código de produto e não é monorepo.
 
 ### Fronteiras invioláveis

@@ -20,9 +20,11 @@ UniversalKeyboard/          repo guarda-chuva (docs + .github + gitlinks)
 ```
 
 O repositório da raiz **não contém código de produto**: versiona `docs/`, `.github/` e
-registra cada subrepo como gitlink (modo `160000`). Ele **não** tem `.gitmodules`, então os
-subrepos não são submódulos navegáveis — são ponteiros de commit. Consequência prática:
-commitar em um subrepo deixa o root "sujo" até o gitlink ser atualizado.
+registra cada subrepo como submódulo git, declarado em `.gitmodules` com URL relativa
+(`../uk-<nome>.git`). A URL relativa herda o protocolo do superprojeto: quem clona por SSH
+continua em SSH; quem clona por HTTPS continua em HTTPS.
+Consequência prática: commitar em um subrepo deixa o root "sujo" até o ponteiro do
+submódulo ser atualizado.
 
 Não trate o root como monorepo: mudança de produto é commitada no repo de produto.
 
