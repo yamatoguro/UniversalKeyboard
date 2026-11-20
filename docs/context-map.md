@@ -313,6 +313,7 @@ Prefixos: `uk_` para símbolo exportado, `UK_` para macro pública.
 | Regras por linguagem/área | [`.github/instructions/`](../.github/instructions) |
 | Procedimentos especializados | [`.github/skills/`](../.github/skills) |
 | Decisões arquiteturais | [`docs/adr/`](adr) |
+| Esquema elétrico (matriz + link) | [`docs/hardware/matriz-e-link.md`](hardware/matriz-e-link.md) |
 | CI de cada repo | `uk-*/.github/workflows/ci.yml` |
 
 ### Índice de skills

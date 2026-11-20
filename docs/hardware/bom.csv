@@ -1,0 +1,243 @@
+ref,value,footprint,description
+U1,ATmega328P-PU,Package_DIP:DIP-28_W7.62mm,MCU AVR 32KB @ 3V3/8MHz (cristal)
+U2,74HC595,Package_DIP:DIP-16_W7.62mm,Colunas 0-7
+U3,74HC595,Package_DIP:DIP-16_W7.62mm,Colunas 8-13
+U4,74HC165,Package_DIP:DIP-16_W7.62mm,Linhas 0-7
+Y1,8MHz,Crystal:Crystal_HC49-U_Vertical,Cristal 8MHz
+C1,22pF,Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm,Carga do cristal
+C2,22pF,Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm,Carga do cristal
+C3,100nF,Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm,Desacoplamento U1
+C4,100nF,Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm,Desacoplamento U2
+C5,100nF,Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm,Desacoplamento U3
+C6,100nF,Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm,Desacoplamento U4
+C7,10uF,Capacitor_THT:CP_Radial_D5.0mm_P2.00mm,Bulk da rail 3V3
+R1,10k,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm,Pull-up de RESET
+R2,330R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm,Serie do LED de status
+RN1,8x10k,Resistor_THT:R_Array_SIP9,Pull-down das linhas 0-7
+LED1,LED,LED_THT:LED_D3.0mm,Status do link
+J1,Conn_01x06,Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical,"Link Pi: 3V3, GND, PiTX, PiRX, spare, GND"
+J2,Conn_01x06,Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical,"ICSP: RESET, 3V3, GND e debug"
+SW0,K_000,Switch:SW_Push,Tecla r0 c0
+SW1,K_001,Switch:SW_Push,Tecla r1 c0
+SW2,K_002,Switch:SW_Push,Tecla r2 c0
+SW3,K_003,Switch:SW_Push,Tecla r3 c0
+SW4,K_004,Switch:SW_Push,Tecla r4 c0
+SW5,K_005,Switch:SW_Push,Tecla r5 c0
+SW6,K_006,Switch:SW_Push,Tecla r6 c0
+SW7,K_007,Switch:SW_Push,Tecla r7 c0
+SW8,K_008,Switch:SW_Push,Tecla r0 c1
+SW9,K_009,Switch:SW_Push,Tecla r1 c1
+SW10,K_010,Switch:SW_Push,Tecla r2 c1
+SW11,K_011,Switch:SW_Push,Tecla r3 c1
+SW12,K_012,Switch:SW_Push,Tecla r4 c1
+SW13,K_013,Switch:SW_Push,Tecla r5 c1
+SW14,K_014,Switch:SW_Push,Tecla r6 c1
+SW15,K_015,Switch:SW_Push,Tecla r7 c1
+SW16,K_016,Switch:SW_Push,Tecla r0 c2
+SW17,K_017,Switch:SW_Push,Tecla r1 c2
+SW18,K_018,Switch:SW_Push,Tecla r2 c2
+SW19,K_019,Switch:SW_Push,Tecla r3 c2
+SW20,K_020,Switch:SW_Push,Tecla r4 c2
+SW21,K_021,Switch:SW_Push,Tecla r5 c2
+SW22,K_022,Switch:SW_Push,Tecla r6 c2
+SW23,K_023,Switch:SW_Push,Tecla r7 c2
+SW24,K_024,Switch:SW_Push,Tecla r0 c3
+SW25,K_025,Switch:SW_Push,Tecla r1 c3
+SW26,K_026,Switch:SW_Push,Tecla r2 c3
+SW27,K_027,Switch:SW_Push,Tecla r3 c3
+SW28,K_028,Switch:SW_Push,Tecla r4 c3
+SW29,K_029,Switch:SW_Push,Tecla r5 c3
+SW30,K_030,Switch:SW_Push,Tecla r6 c3
+SW31,K_031,Switch:SW_Push,Tecla r7 c3
+SW32,K_032,Switch:SW_Push,Tecla r0 c4
+SW33,K_033,Switch:SW_Push,Tecla r1 c4
+SW34,K_034,Switch:SW_Push,Tecla r2 c4
+SW35,K_035,Switch:SW_Push,Tecla r3 c4
+SW36,K_036,Switch:SW_Push,Tecla r4 c4
+SW37,K_037,Switch:SW_Push,Tecla r5 c4
+SW38,K_038,Switch:SW_Push,Tecla r6 c4
+SW39,K_039,Switch:SW_Push,Tecla r7 c4
+SW40,K_040,Switch:SW_Push,Tecla r0 c5
+SW41,K_041,Switch:SW_Push,Tecla r1 c5
+SW42,K_042,Switch:SW_Push,Tecla r2 c5
+SW43,K_043,Switch:SW_Push,Tecla r3 c5
+SW44,K_044,Switch:SW_Push,Tecla r4 c5
+SW45,K_045,Switch:SW_Push,Tecla r5 c5
+SW46,K_046,Switch:SW_Push,Tecla r6 c5
+SW47,K_047,Switch:SW_Push,Tecla r7 c5
+SW48,K_048,Switch:SW_Push,Tecla r0 c6
+SW49,K_049,Switch:SW_Push,Tecla r1 c6
+SW50,K_050,Switch:SW_Push,Tecla r2 c6
+SW51,K_051,Switch:SW_Push,Tecla r3 c6
+SW52,K_052,Switch:SW_Push,Tecla r4 c6
+SW53,K_053,Switch:SW_Push,Tecla r5 c6
+SW54,K_054,Switch:SW_Push,Tecla r6 c6
+SW55,K_055,Switch:SW_Push,Tecla r7 c6
+SW56,K_056,Switch:SW_Push,Tecla r0 c7
+SW57,K_057,Switch:SW_Push,Tecla r1 c7
+SW58,K_058,Switch:SW_Push,Tecla r2 c7
+SW59,K_059,Switch:SW_Push,Tecla r3 c7
+SW60,K_060,Switch:SW_Push,Tecla r4 c7
+SW61,K_061,Switch:SW_Push,Tecla r5 c7
+SW62,K_062,Switch:SW_Push,Tecla r6 c7
+SW63,K_063,Switch:SW_Push,Tecla r7 c7
+SW64,K_064,Switch:SW_Push,Tecla r0 c8
+SW65,K_065,Switch:SW_Push,Tecla r1 c8
+SW66,K_066,Switch:SW_Push,Tecla r2 c8
+SW67,K_067,Switch:SW_Push,Tecla r3 c8
+SW68,K_068,Switch:SW_Push,Tecla r4 c8
+SW69,K_069,Switch:SW_Push,Tecla r5 c8
+SW70,K_070,Switch:SW_Push,Tecla r6 c8
+SW71,K_071,Switch:SW_Push,Tecla r7 c8
+SW72,K_072,Switch:SW_Push,Tecla r0 c9
+SW73,K_073,Switch:SW_Push,Tecla r1 c9
+SW74,K_074,Switch:SW_Push,Tecla r2 c9
+SW75,K_075,Switch:SW_Push,Tecla r3 c9
+SW76,K_076,Switch:SW_Push,Tecla r4 c9
+SW77,K_077,Switch:SW_Push,Tecla r5 c9
+SW78,K_078,Switch:SW_Push,Tecla r6 c9
+SW79,K_079,Switch:SW_Push,Tecla r7 c9
+SW80,K_080,Switch:SW_Push,Tecla r0 c10
+SW81,K_081,Switch:SW_Push,Tecla r1 c10
+SW82,K_082,Switch:SW_Push,Tecla r2 c10
+SW83,K_083,Switch:SW_Push,Tecla r3 c10
+SW84,K_084,Switch:SW_Push,Tecla r4 c10
+SW85,K_085,Switch:SW_Push,Tecla r5 c10
+SW86,K_086,Switch:SW_Push,Tecla r6 c10
+SW87,K_087,Switch:SW_Push,Tecla r7 c10
+SW88,K_088,Switch:SW_Push,Tecla r0 c11
+SW89,K_089,Switch:SW_Push,Tecla r1 c11
+SW90,K_090,Switch:SW_Push,Tecla r2 c11
+SW91,K_091,Switch:SW_Push,Tecla r3 c11
+SW92,K_092,Switch:SW_Push,Tecla r4 c11
+SW93,K_093,Switch:SW_Push,Tecla r5 c11
+SW94,K_094,Switch:SW_Push,Tecla r6 c11
+SW95,K_095,Switch:SW_Push,Tecla r7 c11
+SW96,K_096,Switch:SW_Push,Tecla r0 c12
+SW97,K_097,Switch:SW_Push,Tecla r1 c12
+SW98,K_098,Switch:SW_Push,Tecla r2 c12
+SW99,K_099,Switch:SW_Push,Tecla r3 c12
+SW100,K_100,Switch:SW_Push,Tecla r4 c12
+SW101,K_101,Switch:SW_Push,Tecla r5 c12
+SW102,K_102,Switch:SW_Push,Tecla r6 c12
+SW103,K_103,Switch:SW_Push,Tecla r7 c12
+SW104,K_104,Switch:SW_Push,Tecla r0 c13
+SW105,K_105,Switch:SW_Push,Tecla r1 c13
+SW106,K_106,Switch:SW_Push,Tecla r2 c13
+SW107,K_107,Switch:SW_Push,Tecla r3 c13
+SW108,K_108,Switch:SW_Push,Tecla r4 c13
+SW109,K_109,Switch:SW_Push,Tecla r5 c13
+SW110,K_110,Switch:SW_Push,Tecla r6 c13
+SW111,K_111,Switch:SW_Push,Tecla r7 c13
+D0,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 0
+D1,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 1
+D2,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 2
+D3,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 3
+D4,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 4
+D5,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 5
+D6,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 6
+D7,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 7
+D8,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 8
+D9,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 9
+D10,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 10
+D11,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 11
+D12,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 12
+D13,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 13
+D14,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 14
+D15,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 15
+D16,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 16
+D17,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 17
+D18,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 18
+D19,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 19
+D20,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 20
+D21,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 21
+D22,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 22
+D23,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 23
+D24,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 24
+D25,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 25
+D26,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 26
+D27,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 27
+D28,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 28
+D29,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 29
+D30,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 30
+D31,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 31
+D32,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 32
+D33,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 33
+D34,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 34
+D35,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 35
+D36,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 36
+D37,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 37
+D38,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 38
+D39,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 39
+D40,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 40
+D41,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 41
+D42,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 42
+D43,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 43
+D44,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 44
+D45,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 45
+D46,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 46
+D47,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 47
+D48,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 48
+D49,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 49
+D50,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 50
+D51,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 51
+D52,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 52
+D53,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 53
+D54,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 54
+D55,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 55
+D56,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 56
+D57,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 57
+D58,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 58
+D59,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 59
+D60,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 60
+D61,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 61
+D62,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 62
+D63,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 63
+D64,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 64
+D65,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 65
+D66,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 66
+D67,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 67
+D68,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 68
+D69,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 69
+D70,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 70
+D71,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 71
+D72,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 72
+D73,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 73
+D74,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 74
+D75,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 75
+D76,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 76
+D77,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 77
+D78,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 78
+D79,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 79
+D80,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 80
+D81,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 81
+D82,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 82
+D83,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 83
+D84,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 84
+D85,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 85
+D86,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 86
+D87,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 87
+D88,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 88
+D89,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 89
+D90,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 90
+D91,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 91
+D92,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 92
+D93,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 93
+D94,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 94
+D95,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 95
+D96,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 96
+D97,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 97
+D98,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 98
+D99,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 99
+D100,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 100
+D101,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 101
+D102,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 102
+D103,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 103
+D104,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 104
+D105,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 105
+D106,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 106
+D107,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 107
+D108,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 108
+D109,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 109
+D110,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 110
+D111,BAT54,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,Anti-ghosting da tecla 111
