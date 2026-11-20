@@ -43,6 +43,10 @@ qual layout o host está usando. Ver §7.
 | **`uk-sc-integration`** | Contrato e implementação do link entre o Pi e o Arduino da malha: protocolo, framing, CRC, máquinas de estado, **e o firmware do Arduino**. | C (núcleo portável + AVR) | Pi Zero 2W e ATmega |
 | *(hardware)* | Malha de 112 teclas, 112 displays, driver de tela, placa do Pi | — | bancada |
 
+Além dos três repos de produto, a raiz `UniversalKeyboard/` é um **repo guarda-chuva**: versiona
+`docs/` e `.github/` e registra cada subrepo como gitlink (modo `160000`), sem `.gitmodules`.
+Não contém código de produto e não é monorepo.
+
 ### Fronteiras invioláveis
 
 - `uk-gui` **não** linka biblioteca de `uk-pi0` nem de `uk-sc-integration`. Fala com o
@@ -348,16 +352,19 @@ Raspberry Pi OS, stack do `uk-gui` — **perguntar**, nunca assumir.
 
 ## 12. Decisões pendentes (bloqueiam implementação)
 
-| # | Decisão | Bloqueia |
-|---|---|---|
-| 1 | Stack do `uk-gui` | Todo o repo `uk-gui` |
-| 2 | Layout de frame serial v1 + stuffing vs COBS | `serial-link`, firmware, daemon |
-| 3 | Protocolo HID vendor-specific (opcodes, fatiamento, transação) | `hid-gadget`, `uk-gui`, daemon |
-| 4 | Modelo/part number do display e barramento (SPI direto, shift-register, controlador dedicado) | `display-pipeline`, `uk-gui` (preview), driver |
-| 5 | Barramento do Pi: 32-bit (`armhf`) ou 64-bit (`arm64`) | `cross-build`, systemd unit |
-| 6 | AVR escolhido: ATmega328P ou ATmega32U4 | `arduino-firmware`, `input-matrix` |
-| 7 | Pinagem da malha 8×14 e do barramento de display | `input-matrix`, firmware, bancada |
-| 8 | Conjunto inicial de layouts suportados (ABNT2, ANSI US, …) | `layout-adaptation`, `key-rendering` |
-| 9 | Protocolo de update de firmware (DFU / bootloader / via Pi) | `workflow-release` |
+| # | Decisão | Bloqueia | ADR |
+|---|---|---|---|
+| 1 | Stack do `uk-gui` | Todo o repo `uk-gui` | [ADR-0001](adr/0001-stack-do-uk-gui.md) |
+| 2 | Layout de frame serial v1 + stuffing vs COBS | `serial-link`, firmware, daemon | [ADR-0002](adr/0002-frame-do-link-serial.md) |
+| 3 | Protocolo HID vendor-specific (opcodes, fatiamento, transação) | `hid-gadget`, `uk-gui`, daemon | [ADR-0003](adr/0003-protocolo-hid-vendor.md) |
+| 4 | Modelo/part number do display e barramento (SPI direto, shift-register, controlador dedicado) | `display-pipeline`, `uk-gui` (preview), driver | — |
+| 5 | Barramento do Pi: 32-bit (`armhf`) ou 64-bit (`arm64`) | `cross-build`, systemd unit | — |
+| 6 | AVR escolhido: ATmega328P ou ATmega32U4 | `arduino-firmware`, `input-matrix` | — |
+| 7 | Pinagem da malha 8×14 e do barramento de display | `input-matrix`, firmware, bancada | — |
+| 8 | Conjunto inicial de layouts suportados (ABNT2, ANSI US, …) | `layout-adaptation`, `key-rendering` | — |
+| 9 | Protocolo de update de firmware (DFU / bootloader / via Pi) | `workflow-release` | — |
+
+ADRs 0001–0003 estão **Propostos**: registram a análise e a recomendação, mas a decisão é
+humana. Enquanto não forem `Aceito`, a implementação do que eles bloqueiam não começa.
 
 Formato de decisão: ver [`docs/adr/0000-template.md`](adr/0000-template.md).

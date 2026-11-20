@@ -10,15 +10,21 @@ description: |
 
 ## Topologia
 
-Três repositórios git independentes, sem submódulo e sem monorepo:
+Três repositórios git independentes de produto, mais um repositório guarda-chuva no root:
 
 ```text
-uk-gui/            um repo
-uk-pi0/            um repo
-uk-sc-integration/ um repo
+UniversalKeyboard/          repo guarda-chuva (docs + .github + gitlinks)
+├── uk-gui/                 repo de produto
+├── uk-pi0/                 repo de produto
+└── uk-sc-integration/      repo de produto
 ```
 
-A raiz `UniversalKeyboard/` **não** é repositório. Não tente commitar nela.
+O repositório da raiz **não contém código de produto**: versiona `docs/`, `.github/` e
+registra cada subrepo como gitlink (modo `160000`). Ele **não** tem `.gitmodules`, então os
+subrepos não são submódulos navegáveis — são ponteiros de commit. Consequência prática:
+commitar em um subrepo deixa o root "sujo" até o gitlink ser atualizado.
+
+Não trate o root como monorepo: mudança de produto é commitada no repo de produto.
 
 ## Regra de ouro multi-repo
 
