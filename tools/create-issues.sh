@@ -98,10 +98,16 @@ create() {
     fi
 
     ensure_label "$repo" "$label"
-    if gh issue create --repo "$OWNER/$repo" --title "$title" \
-                       --body "$body" --label "$label" >/dev/null; then
+    local url
+    if url=$(gh issue create --repo "$OWNER/$repo" --title "$title" \
+                             --body "$body" --label "$label"); then
         echo "  + criado      [$repo] $title"
         CREATED=$((CREATED + 1))
+        if [ -n "${UK_PROJECT:-}" ] && [ -n "$url" ]; then
+            gh project item-add "$UK_PROJECT" --owner "$OWNER" --url "$url" >/dev/null 2>&1 \
+                && echo "    -> projeto $UK_PROJECT" \
+                || echo "    ! nao entrou no projeto $UK_PROJECT" >&2
+        fi
     else
         echo "  ! falhou      [$repo] $title" >&2
     fi
@@ -1074,7 +1080,7 @@ Reenviar o mesmo layout nao gera trafego de render no teclado.
 - ADR-0003
 EOF
 
-issue uk-gui "[ui] Editor de macros e preview das 112 teclas" panel <<'EOF'
+issue uk-gui "[ui] Editor de macros e preview das 120 teclas" panel <<'EOF'
 ## Contexto
 
 O painel precisa mostrar o resultado real: keycode, nao apenas caractere. A tabela de mapeamento nao pode ser duplicada.
@@ -1103,3 +1109,192 @@ echo "Criados: $CREATED   ja existentes: $SKIPPED"
 if [ "$DRY_RUN" = 1 ]; then
     echo "(modo dry-run: nada foi enviado ao GitHub)"
 fi
+
+# ---------------------------------------------------------------------------
+# Hardware: decisoes e execucao abertas pelo redesenho 6x23
+# ---------------------------------------------------------------------------
+
+echo "Hardware (UniversalKeyboard)"
+
+issue UniversalKeyboard "[ADR-0002] Revisar taxa do link: 57600 (3V3) vs 921600 (5V)" adr <<'EOF'
+## Contexto
+
+O ADR-0002 propõe **921600 baud**, que exige ATmega a 16 MHz / 5 V.
+
+O hardware foi definido em **rail único de 3,3 V**, porque o Pi Zero 2W não tolera 5 V em
+GPIO. Isso limita o clock a 8 MHz e a taxa viável a **57600 baud** (erro de 2,1 %).
+
+Com 8 MHz:
+
+| Baud | UBRR | Erro | Veredito |
+|---|---:|---:|---|
+| 921600 | 0,08 | — | **impossível** |
+| 115200 | 7,68 | 3,5 % | marginal |
+| 57600 | 16,36 | 2,1 % | recomendado |
+
+**Bloqueia firmware e daemon** — os dois lados precisam concordar.
+
+## O que fazer
+
+- [ ] Decidir: 57600 em 3,3 V, ou 5 V/16 MHz com level shifter no UART
+- [ ] Se 5 V: reavaliar o risco de 5 V chegar em GPIO do Pi (o shifter pode ser montado errado)
+- [ ] Atualizar o ADR-0002 com a taxa final e o `VER` do frame
+- [ ] Mudar o status para `Aceito`
+
+## Pronto quando
+
+Taxa fechada, ADR `Aceito`, e `UK_BAUD` definido nos dois lados.
+
+## Referencias
+
+- `docs/adr/0002-frame-do-link-serial.md` (campo "Revisão pendente")
+- `docs/hardware/matriz-e-link.md` §3
+EOF
+
+issue UniversalKeyboard "[hw] Rotear as duas PCBs no Pcbnew" bench <<'EOF'
+## Contexto
+
+As placas existem, abrem no KiCad e passam DRC **sem curtos**, mas estão **sem roteamento**:
+362 conexões não-roteadas na matriz e 109 na placa de controle.
+
+## O que fazer
+
+- [ ] Roteamento da matriz (prioridade: linhas de COL/ROW folgadas, sobra área)
+- [ ] Plano de GND nas duas faces com via stitching
+- [ ] Roteamento da placa de controle com atenção a `3V3`/`GND`
+- [ ] Revisar o texto não espelhado no lado B (199 avisos cosméticos)
+- [ ] Rodar DRC até zero erros de geometria
+
+## Pronto quando
+
+DRC com 0 curtos e 0 não-roteadas nas duas placas.
+
+## Referencias
+
+- `docs/hardware/matriz-e-link.md` §6 e §8
+- `tools/gen_kicad_pcb.py`
+EOF
+
+issue UniversalKeyboard "[hw] Prototipo de 1 coluna (6 teclas) antes das 120" bench <<'EOF'
+## Contexto
+
+Validar 120 teclas de uma vez é caro em tempo e em dinheiro. Uma coluna exercita toda a
+cadeia: shift register, diodo, debounce, frame serial e integração com o Pi.
+
+## O que fazer
+
+- [ ] Montar 6 switches + 6 diodos + 1× 74HC595 + 1× 74HC165
+- [ ] Medir `UK_MATRIX_SETTLE_US` no cabo real
+- [ ] Medir corrente por coluna com 6 teclas pressionadas
+- [ ] Validar frame serial com o Pi
+- [ ] Confirmar o passo de 19,05 mm com o keycap e a tela montados
+
+## Pronto quando
+
+Uma coluna funciona ponta a ponta e os números estão registrados.
+
+## Referencias
+
+- `docs/hardware/matriz-e-link.md` §9
+EOF
+
+issue UniversalKeyboard "[hw] Escolher display e medir o consumo real" bench <<'EOF'
+## Contexto
+
+O orçamento de energia é o maior risco do projeto. 120 displays de 1,3" com backlight
+consomem **~2,4 A** — acima de qualquer porta USB.
+
+| Carga | Corrente |
+|---|---:|
+| Pi Zero 2W | 120–250 mA |
+| ATmega + 4 CIs | ~9 mA |
+| 120 displays (~20 mA cada) | ~2 400 mA |
+
+## O que fazer
+
+- [ ] Levantar candidatos: TFT SPI com/sem backlight, e-paper, memory-in-pixel
+- [ ] Medir corrente real de um display aceso e apagado
+- [ ] Decidir a fonte externa (≥ 3 A) e o método de não retroalimentar o VBUS do host
+- [ ] Registrar em ADR
+
+## Por que importa
+
+e-paper gasta quase nada em imagem estática, o que combina com keycap que muda pouco.
+A escolha muda o produto, não só a BOM.
+
+## Pronto quando
+
+ADR `Aceito` com part number, consumo medido e arquitetura de energia definida.
+
+## Referencias
+
+- `docs/hardware/matriz-e-link.md` §7
+EOF
+
+issue UniversalKeyboard "[hw] Adicionar TVS e capacitor de reset ao netlist" bench <<'EOF'
+## Contexto
+
+As linhas da matriz ficam expostas ao usuário. Não há proteção ESD nem filtro no reset.
+
+## O que fazer
+
+- [ ] TVS nas linhas de coluna e linha que chegam aos conectores
+- [ ] 100 nF de RESET para GND
+- [ ] Verificar se o conector J3/J4 precisa de proteção adicional
+- [ ] Regerar netlist, esquema e PCBs
+
+## Pronto quando
+
+Proteção no netlist, ERC limpo e BOM atualizada.
+
+## Referencias
+
+- `docs/hardware/matriz-e-link.md` §7
+EOF
+
+issue UniversalKeyboard "[hw] Definir a tela unica opcional abaixo das teclas" bench <<'EOF'
+## Contexto
+
+Requisito declarado: possivelmente uma **tela única** abaixo das teclas, no estilo
+Stream Deck, além (ou no lugar) das telas por keycap.
+
+## O que fazer
+
+- [ ] Definir se é adicional ou substitui as 120 telas — muda o orçamento inteiro
+- [ ] Escolher tamanho, resolução e barramento
+- [ ] Verificar o orçamento de banda junto com os displays por tecla
+- [ ] Reservar área na PCB e no gabarito
+
+## Pronto quando
+
+Decisão registrada e a área reservada na placa.
+
+## Referencias
+
+- `docs/hardware/matriz-e-link.md` §7
+- ADR de display
+EOF
+
+issue uk-pi0 "[link] Configurar baud conforme ADR-0002 revisado" core <<'EOF'
+## Contexto
+
+Depende da taxa final decidida no issue de revisão do ADR-0002.
+
+O daemon precisa abrir a serial na taxa fechada e **rejeitar** configuração incompatível em
+vez de falhar silenciosamente.
+
+## O que fazer
+
+- [ ] `UK_BAUD` como constante nomeada, não literal
+- [ ] Falha de `termios` tratada e logada
+- [ ] Timeout de leitura derivado do frame máximo na taxa escolhida
+- [ ] Teste host com pty fake
+
+## Pronto quando
+
+Daemon e firmware conversam na taxa acordada, com teste automatizado.
+
+## Referencias
+
+- `docs/adr/0002-frame-do-link-serial.md`
+EOF
