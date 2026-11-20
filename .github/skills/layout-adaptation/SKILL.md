@@ -109,7 +109,7 @@ Tabela de mapeamento explícita, versionada, com caso `UNKNOWN` que não quebra 
 
 ## Teclas que não existem no layout atual
 
-A matriz física é fixa (112). Se o layout ativo não usa uma posição:
+A matriz física é fixa (120). Se o layout ativo não usa uma posição:
 
 - marcar `active = false` no `key_state_t`;
 - renderizar como inativa (nunca invisível);

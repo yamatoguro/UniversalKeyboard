@@ -12,3 +12,7 @@ build-*/
 _autosave-*
 fp-info-cache
 *.lck
+
+# VS Code Local History
+.history/
+**/.history/

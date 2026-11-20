@@ -26,9 +26,16 @@ import csv
 import pathlib
 import sys
 
-ROWS = 8
-COLS = 14
-KEYS = ROWS * COLS
+ROWS = 6
+COLS = 23
+
+# O layout fisico define quantas teclas existem e onde cada uma cai na matriz.
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+from layout_fullsize import positions as _physical_positions  # noqa: E402
+
+_KEY_POS = _physical_positions()
+KEYS = len(_KEY_POS)
+KEY_CELL = {k["idx"]: (k["col"], k["row"]) for k in _KEY_POS}
 
 OUT_DIR = pathlib.Path(__file__).resolve().parent.parent / "docs" / "hardware"
 
@@ -42,8 +49,9 @@ def add_comp(ref: str, value: str, footprint: str, desc: str) -> None:
 add_comp("U1", "ATmega328P-PU", "Package_DIP:DIP-28_W7.62mm",
          "MCU AVR 32KB @ 3V3/8MHz (cristal)")
 add_comp("U2", "74HC595", "Package_DIP:DIP-16_W7.62mm", "Colunas 0-7")
-add_comp("U3", "74HC595", "Package_DIP:DIP-16_W7.62mm", "Colunas 8-13")
-add_comp("U4", "74HC165", "Package_DIP:DIP-16_W7.62mm", "Linhas 0-7")
+add_comp("U3", "74HC595", "Package_DIP:DIP-16_W7.62mm", "Colunas 8-15")
+add_comp("U4", "74HC595", "Package_DIP:DIP-16_W7.62mm", "Colunas 16-22")
+add_comp("U5", "74HC165", "Package_DIP:DIP-16_W7.62mm", "Linhas 0-5")
 
 add_comp("Y1", "8MHz", "Crystal:Crystal_HC49-U_Vertical", "Cristal 8MHz")
 add_comp("C1", "22pF", "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm", "Carga do cristal")
@@ -52,6 +60,7 @@ add_comp("C3", "100nF", "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm", "Desacopla
 add_comp("C4", "100nF", "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm", "Desacoplamento U2")
 add_comp("C5", "100nF", "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm", "Desacoplamento U3")
 add_comp("C6", "100nF", "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm", "Desacoplamento U4")
+add_comp("C8", "100nF", "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm", "Desacoplamento U5")
 add_comp("C7", "10uF", "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm", "Bulk da rail 3V3")
 
 add_comp("R1", "10k", "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm",
@@ -67,11 +76,16 @@ add_comp("J1", "Conn_01x06", "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_
          "Link Pi: 3V3, GND, PiTX, PiRX, spare, GND")
 add_comp("J2", "Conn_01x06", "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical",
          "ICSP: RESET, 3V3, GND e debug")
+add_comp("J3", "Conn_02x17", "Connector_PinHeader_2.54mm:PinHeader_2x17_P2.54mm_Vertical",
+         "Interligacao para a placa de controle (lado matriz)")
+add_comp("J4", "Conn_02x17", "Connector_PinHeader_2.54mm:PinHeader_2x17_P2.54mm_Vertical",
+         "Interligacao para a placa da matriz (lado controle)")
 
 for k in range(KEYS):
-    add_comp(f"SW{k}", f"K_{k:03d}", "Switch:SW_Push", f"Tecla r{k % ROWS} c{k // ROWS}")
+    add_comp(f"SW{k}", f"K_{k:03d}", "Switch:SW_Push",
+             f"Tecla {k} (c{KEY_CELL[k][0]} r{KEY_CELL[k][1]})")
 for k in range(KEYS):
-    add_comp(f"D{k}", "BAT54", "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+    add_comp(f"D{k}", "BAT54", "Diode_SMD:D_SOD-123",
              f"Anti-ghosting da tecla {k}")
 
 nets: dict[str, list[tuple[str, str]]] = {}
@@ -92,7 +106,7 @@ SR595_OUT = {"15": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7}
 #          9 Q7 10 SER 11 D0 12 D1 13 D2 14 D3 15 CE 16 VCC
 SR165_IN = {"11": 0, "12": 1, "13": 2, "14": 3, "3": 4, "4": 5, "5": 6, "6": 7}
 
-for ref in ("U2", "U3", "U4"):
+for ref in ("U2", "U3", "U4", "U5"):
     connect("3V3", ref, "16")
     connect("GND", ref, "8")
 
@@ -102,7 +116,7 @@ for pin in ("7", "20", "21"):
 for pin in ("8", "22"):
     connect("GND", "U1", pin)
 
-for cap in ("C3", "C4", "C5", "C6"):
+for cap in ("C3", "C4", "C5", "C6", "C8"):
     connect("3V3", cap, "1")
     connect("GND", cap, "2")
 connect("3V3", "C7", "1")
@@ -130,44 +144,49 @@ connect("SR_DS", "U2", "14")
 connect("SR_CLK", "U1", "5")
 connect("SR_CLK", "U2", "11")
 connect("SR_CLK", "U3", "11")
-connect("SR_CLK", "U4", "2")
+connect("SR_CLK", "U4", "11")
+connect("SR_CLK", "U5", "2")
 connect("SR_LATCH", "U1", "6")
 connect("SR_LATCH", "U2", "12")
 connect("SR_LATCH", "U3", "12")
+connect("SR_LATCH", "U4", "12")
 connect("SR_LOAD", "U1", "11")
-connect("SR_LOAD", "U4", "1")
+connect("SR_LOAD", "U5", "1")
 connect("SR_DATA_IN", "U1", "12")
-connect("SR_DATA_IN", "U4", "9")
+connect("SR_DATA_IN", "U5", "9")
 
-connect("SR_CASCADE", "U2", "9")
-connect("SR_CASCADE", "U3", "14")
+connect("SR_CASCADE1", "U2", "9")
+connect("SR_CASCADE1", "U3", "14")
+connect("SR_CASCADE2", "U3", "9")
+connect("SR_CASCADE2", "U4", "14")
 
-for ref in ("U2", "U3"):
+for ref in ("U2", "U3", "U4"):
     connect("3V3", ref, "10")
     connect("GND", ref, "13")
 
-connect("GND", "U4", "15")
-connect("GND", "U4", "10")
+connect("GND", "U5", "15")   # CE ativo baixo
+connect("GND", "U5", "10")   # SER nao usado
+connect("GND", "U5", "5")    # D6 nao usado (entrada)
+connect("GND", "U5", "6")    # D7 nao usado (entrada)
 
 for c in range(COLS):
-    unit = "U2" if c < 8 else "U3"
+    unit = "U2" if c < 8 else ("U3" if c < 16 else "U4")
     pin = next(p for p, i in SR595_OUT.items() if i == (c % 8))
     connect(f"COL{c}", unit, pin)
 
 for r in range(ROWS):
     pin = next(p for p, i in SR165_IN.items() if i == r)
-    connect(f"ROW{r}", "U4", pin)
+    connect(f"ROW{r}", "U5", pin)
     connect(f"ROW{r}", f"R{3 + r}", "1")
     connect("GND", f"R{3 + r}", "2")
 
 # Matriz: COL -> SW -> anodo D -> catodo D -> ROW
-for c in range(COLS):
-    for r in range(ROWS):
-        k = c * ROWS + r
-        connect(f"COL{c}", f"SW{k}", "1")
-        connect(f"KEY{k}", f"SW{k}", "2")
-        connect(f"KEY{k}", f"D{k}", "2")
-        connect(f"ROW{r}", f"D{k}", "1")
+for k in range(KEYS):
+    c, r = KEY_CELL[k]
+    connect(f"COL{c}", f"SW{k}", "1")
+    connect(f"KEY{k}", f"SW{k}", "2")
+    connect(f"KEY{k}", f"D{k}", "2")
+    connect(f"ROW{r}", f"D{k}", "1")
 
 # Link com o Pi: UART 3V3 direto
 connect("3V3", "J1", "1")
@@ -177,6 +196,18 @@ connect("PI_RX", "J1", "4")
 connect("GND", "J1", "6")
 connect("PI_TX", "U1", "2")
 connect("PI_RX", "U1", "3")
+
+# Interligacao placa matriz <-> placa de controle
+_LINK_PINS = [f"COL{c}" for c in range(COLS)] + [f"ROW{r}" for r in range(ROWS)]
+for _i, _net in enumerate(_LINK_PINS, start=1):
+    connect(_net, "J3", str(_i))
+    connect(_net, "J4", str(_i))
+_n = len(_LINK_PINS)
+connect("3V3", "J3", str(_n + 1))
+connect("3V3", "J4", str(_n + 1))
+for _off in (2, 3, 4):
+    connect("GND", "J3", str(_n + _off))
+    connect("GND", "J4", str(_n + _off))
 
 connect("STATUS_LED", "U1", "14")
 connect("STATUS_LED", "R2", "1")
@@ -262,6 +293,6 @@ with bom_path.open("w", newline="", encoding="utf-8") as fh:
 
 print(f"componentes : {len(components)}")
 print(f"redes       : {len(nets)}")
-print(f"teclas      : {KEYS} ({ROWS}x{COLS})")
+print(f"teclas      : {KEYS} em matriz {ROWS}x{COLS} ({ROWS * COLS - KEYS} posicoes livres)")
 print(f"netlist     : {net_path}")
 print(f"bom         : {bom_path}")

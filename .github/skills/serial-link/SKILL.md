@@ -71,10 +71,10 @@ typedef enum {
 
 ## Taxa
 
-- `921600` baud é razoável para 112 teclas e frames curtos; 115200 também serve para
+- `921600` baud é razoável para 120 teclas e frames curtos; 115200 também serve para
   transições (não para streaming de estado completo).
 - Streaming de bitmap completo é proibido em regime normal: envie só transições.
-- Calcule: 112 teclas × ~120 acionamentos/min é trivial; o pior caso é "todas as teclas
+- Calcule: 120 teclas × ~120 acionamentos/min é trivial; o pior caso é "todas as teclas
   mudam ao mesmo tempo" (troca de camada) — dimensione para isso.
 
 ## Teste

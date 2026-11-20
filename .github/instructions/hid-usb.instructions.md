@@ -16,7 +16,7 @@ resto é irrelevante.
 | Interface | Classe | Função |
 |---|---|---|
 | 0 | HID boot keyboard | digitação; funciona em BIOS/UEFI |
-| 1 | HID report (NKRO) | bitmap de 112 bits; usado quando o host suporta |
+| 1 | HID report (NKRO) | bitmap de 120 bits; usado quando o host suporta |
 | 2 | HID vendor-defined | controle: layout, macros, imagens, stats |
 
 - Boot protocol **sempre** enumerado. Nunca remova em troca de NKRO.

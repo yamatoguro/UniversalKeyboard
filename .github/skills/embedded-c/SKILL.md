@@ -1,7 +1,7 @@
 ---
 name: embedded-c
 description: |
-  Procedimento para escrever C embarcado no UniversalKeyboard: firmware AVR da matriz de 112 teclas e biblioteca portável do protocolo. Memória estática, ISR curta, máquinas de estado, comparação de tempo segura no wrap.
+  Procedimento para escrever C embarcado no UniversalKeyboard: firmware AVR da matriz de 120 teclas e biblioteca portável do protocolo. Memória estática, ISR curta, máquinas de estado, comparação de tempo segura no wrap.
   Triggers: "escrever C", "criar módulo", "ISR", "volatile", "seção crítica", "fila estática", "máquina de estados", "uint32 wrap", "AVR C", "código embarcado".
   NOT for: C++ do daemon (use cpp-daemon), Assembly (use assembly).
 ---
@@ -31,7 +31,7 @@ description: |
 extern "C" {
 #endif
 
-#define UK_KEY_COUNT        112u
+#define UK_KEY_COUNT        120u
 #define UK_MATRIX_ROWS        8u
 #define UK_MATRIX_COLS       14u
 #define UK_DEBOUNCE_MS        5u
@@ -84,7 +84,7 @@ typedef struct {
 ```
 
 Encher a fila é falha de projeto, não de execução: dimensione pela pior rajada esperada
-(112 teclas simultâneas) e conte overflow.
+(120 teclas simultâneas) e conte overflow.
 
 **Debounce por timestamp:**
 

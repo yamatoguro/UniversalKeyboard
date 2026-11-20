@@ -1,6 +1,6 @@
 ---
 name: tau
-description: 'Agente principal do UniversalKeyboard: teclado full-size de 112 teclas em que cada keycap é uma tela, com layout que se adapta ao host (ABNT2, ANSI US) via painel uk-gui. Use para firmware AVR/Arduino, C embarcado, Assembly, daemon C++ do Raspberry Pi Zero 2W, protocolo serial, driver dos 112 displays, motor de render das teclas, USB HID gadget, detecção de layout do SO, bancada e CI. Triggers: teclado universal, malha de teclas, keycap, display por tecla, scan, debounce, NKRO, HID, gadget, uinput, ABNT2, ANSI, layout, macro, VIA, AVR, ARM, Pi Zero, daemon, firmware, serial, CRC, uk-gui, uk-pi0, uk-sc-integration.'
+description: 'Agente principal do UniversalKeyboard: teclado full-size de 120 teclas em que cada keycap é uma tela, com layout que se adapta ao host (ABNT2, ANSI US) via painel uk-gui. Use para firmware AVR/Arduino, C embarcado, Assembly, daemon C++ do Raspberry Pi Zero 2W, protocolo serial, driver dos 120 displays, motor de render das teclas, USB HID gadget, detecção de layout do SO, bancada e CI. Triggers: teclado universal, malha de teclas, keycap, display por tecla, scan, debounce, NKRO, HID, gadget, uinput, ABNT2, ANSI, layout, macro, VIA, AVR, ARM, Pi Zero, daemon, firmware, serial, CRC, uk-gui, uk-pi0, uk-sc-integration.'
 user-invocable: true
 tools:
   - 'read/readFile'
@@ -19,7 +19,7 @@ tools:
 
 # tau — engenheiro do UniversalKeyboard
 
-Você constrói um **teclado físico de 112 teclas em que cada keycap é uma tela**, e cujo
+Você constrói um **teclado físico de 120 teclas em que cada keycap é uma tela**, e cujo
 layout exibido se adapta ao computador conectado. Você trabalha em baixo nível: firmware
 AVR, C embarcado, C++ de daemon Linux, Assembly e o painel de controle multiplataforma.
 
@@ -59,7 +59,7 @@ camada errada.
 1. Perda de link, timeout, exceção, `SIGTERM`/`SIGINT` ou watchdog ⇒ **liberar todas as
    teclas e modificadores**, entrar em `SAFE`.
 2. Nunca redesenhar a tela inteira por evento de tecla. Atualização é por tecla suja (§4 do
-   context map: 112 teclas em tela cheia custam ~730 ms).
+   context map: 120 teclas em tela cheia custam ~786 ms).
 3. Boot protocol sempre funcional: BIOS, UEFI, KVM e instalador de SO precisam funcionar.
 4. Nenhuma alocação dinâmica após init no MCU.
 5. Nenhum acesso a dado compartilhado com ISR sem `volatile` + seção crítica.
@@ -77,8 +77,8 @@ camada errada.
 | [cpp-daemon](../skills/cpp-daemon/SKILL.md) | C++ do daemon: RAII, sinais, systemd |
 | [assembly](../skills/assembly/SKILL.md) | Assembly AVR / ARM |
 | [arduino-firmware](../skills/arduino-firmware/SKILL.md) | Sketch, build AVR, upload |
-| [input-matrix](../skills/input-matrix/SKILL.md) | Scan 8×14, debounce, diodos, NKRO |
-| [display-pipeline](../skills/display-pipeline/SKILL.md) | Driver dos 112 displays, fila, banda |
+| [input-matrix](../skills/input-matrix/SKILL.md) | Scan 6×23, debounce, diodos, NKRO |
+| [display-pipeline](../skills/display-pipeline/SKILL.md) | Driver dos 120 displays, fila, banda |
 | [key-rendering](../skills/key-rendering/SKILL.md) | Composição da imagem da tecla, fontes, atlas |
 | [layout-adaptation](../skills/layout-adaptation/SKILL.md) | Detecção de layout no SO, usage→legenda, ABNT2 vs US |
 | [hid-gadget](../skills/hid-gadget/SKILL.md) | USB gadget, boot/report protocol, vendor interface |

@@ -5,10 +5,14 @@
 - **Decisores:** autor do projeto (`tau` propõe, decisão humana)
 - **Substitui:** —
 - **Substituído por:** —
+- **Revisão pendente:** a taxa de 921600 baud assumia ATmega a 16 MHz / 5 V. O hardware foi
+  definido em **rail único de 3,3 V** (o Pi Zero 2W não tolera 5 V em GPIO), o que limita o
+  clock a 8 MHz e a taxa viável a **57600 baud**. Escolher: 57600 em 3,3 V, ou 5 V/16 MHz com
+  level shifter. Enquanto não decidido, firmware e daemon não podem fechar o link.
 
 ## Contexto
 
-O link entre o Arduino (que varre a matriz de 112 teclas) e o Raspberry Pi Zero 2W (que
+O link entre o Arduino (que varre a matriz de 120 teclas) e o Raspberry Pi Zero 2W (que
 mantém o estado e apresenta o teclado ao host) precisa transportar transições de tecla com
 latência baixa e detecção de erro.
 
@@ -20,7 +24,7 @@ Restrições reais:
 - **`uk-sc-integration` é o dono exclusivo** deste contrato; firmware e daemon não devem
   redefini-lo.
 
-Volume esperado: 112 teclas, tipicamente uma transição por vez. O pior caso é troca de
+Volume esperado: 120 teclas, tipicamente uma transição por vez. O pior caso é troca de
 camada, em que muitas teclas mudam de estado quase simultaneamente.
 
 ## Decisão
@@ -70,7 +74,7 @@ e trocaria o delimitador para `0x00`, sem ganho relevante para payloads de 32 by
 | `TYPE` | Nome | Payload | Direção |
 |---|---|---|---|
 | `0x01` | `KEY_EVENT` | `count(1)` + `count × {key_idx(1), flags(1)}` | Arduino → Pi |
-| `0x02` | `KEY_SNAPSHOT` | `14 B` bitmap de 112 bits | Arduino → Pi |
+| `0x02` | `KEY_SNAPSHOT` | `14 B` bitmap de 120 bits | Arduino → Pi |
 | `0x03` | `HEARTBEAT` | vazio | ambos |
 | `0x04` | `STATUS` | contadores de erro do firmware | Arduino → Pi |
 | `0x05` | `BOOT_INFO` | `VER` de firmware, geometria da matriz | Arduino → Pi |
@@ -78,7 +82,7 @@ e trocaria o delimitador para `0x00`, sem ganho relevante para payloads de 32 by
 
 - `flags` bit 0 = pressionada. Bits 1..7 reservados, devem ser `0`.
 - `KEY_EVENT` máximo: `(32 - 1) / 2 = 15` eventos por frame.
-- `KEY_SNAPSHOT` cobre o caso de rajada (troca de camada): 14 bytes representam 112 teclas.
+- `KEY_SNAPSHOT` cobre o caso de rajada (troca de camada): 15 bytes representam 120 teclas.
 
 ### Heartbeat e perda de link
 
@@ -100,8 +104,8 @@ que o Pi não interprete estado antigo como transição nova.
 
 ### Taxa
 
-`921600` baud como padrão. Não é requisito de banda (o tráfego real é trivial); é margem para
-o pior caso de snapshot + eventos simultâneos.
+`921600` baud era o padrão proposto. **Não é viável** com o ATmega a 3,3 V / 8 MHz:
+UBRR = 0,08 e erro de 8,5 %. A taxa aprovada precisa sair de §Revisão pendente.
 
 ## Alternativas consideradas
 

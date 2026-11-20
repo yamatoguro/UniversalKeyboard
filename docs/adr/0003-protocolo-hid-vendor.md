@@ -27,9 +27,9 @@ intervalo de 1 ms. Isso dá **~64 KB/s** de teto teórico.
 | Transferência | Tamanho | Tempo a 64 KB/s |
 |---|---|---|
 | 1 imagem de tecla (128×128 RGB565) | 32 KB | ~0,5 s |
-| 112 imagens (tela cheia) | 3,67 MB | **~56 s** |
+| 120 imagens (tela cheia) | 3,93 MB | **~60 s** |
 | Sprite de ícone (32×32, 1 bpp) | 128 B | ~2 ms |
-| Tabela de legendas de um layout (112 × 8 B) | ~0,9 KB | ~14 ms |
+| Tabela de legendas de um layout (120 × 8 B) | ~0,9 KB | ~14 ms |
 
 Conclusão que governa o protocolo:
 
@@ -164,7 +164,7 @@ configuração a cada reconexão.
 **Negativas**
 
 - Fatiamento manual e CRC duplo (mensagem e blob) aumentam a superfície de bug.
-- Payload de 57 B limita a tabela de legendas: 112 entradas exigem ~2 KB ⇒ ~36 mensagens.
+- Payload de 57 B limita a tabela de legendas: 120 entradas exigem ~2 KB ⇒ ~36 mensagens.
 - Sem `report ID`: exige uma função HID dedicada por interface.
 
 **Mitigações**

@@ -1,7 +1,7 @@
 ---
 name: input-matrix
 description: |
-  Procedimento para a malha de 112 teclas: matriz 8x14 com diodo por tecla, varredura por coluna, tempo de acomodação, debounce por timestamp, anti-ghosting, NKRO e emissão apenas de transições.
+  Procedimento para a malha de 120 teclas: matriz 6x23 com diodo por tecla, varredura por coluna, tempo de acomodação, debounce por timestamp, anti-ghosting, NKRO e emissão apenas de transições.
   Triggers: "malha de teclas", "matriz", "scan", "varredura", "debounce", "ghosting", "rollover", "NKRO", "6KRO", "diodo", "coluna", "linha", "tecla presa", "repetição".
   NOT for: protocolo serial (use serial-link), renderização da tecla (use key-rendering).
 ---
@@ -10,7 +10,7 @@ description: |
 
 ## Geometria
 
-112 teclas ⇒ **8 linhas × 14 colunas**. Com 1 diodo por tecla (cátodo na linha, ânodo na
+120 teclas ⇒ **8 linhas × 14 colunas**. Com 1 diodo por tecla (cátodo na linha, ânodo na
 coluna, ou o inverso conforme a placa), o ghosting clássico de matriz passiva desaparece e
 NKRO é possível.
 
@@ -21,12 +21,12 @@ produto que promete NKRO.
 
 1. Desacionar todas as colunas.
 2. Para cada coluna `c`: acionar `c`, esperar `UK_MATRIX_SETTLE_US`, ler as 8 linhas.
-3. Acumular no bitmap de 112 bits (`uint8_t bits[14]`), um byte por coluna.
+3. Acumular no bitmap de 120 bits (`uint8_t bits[14]`), um byte por coluna.
 4. Comparar com o bitmap anterior; para cada bit que mudou, alimentar o debounce.
 5. Emitir evento apenas quando o estado **estável** muda.
 
 ```c
-/* Um byte por coluna cobre 8 linhas: 14 bytes = 112 teclas. */
+/* Um byte por coluna cobre 8 linhas: 14 bytes = 120 teclas. */
 static uint8_t g_raw[UK_MATRIX_COLS];
 static uint8_t g_stable[UK_MATRIX_COLS];
 ```
@@ -67,7 +67,7 @@ matrix_poll(UK_DEBOUNCE_MS + 1);
 assert(matrix_drain(ev, 8) == 1);
 ```
 
-- Casos obrigatórios: tecla simples, rajada (bounce), 14 teclas simultâneas, todas as 112,
+- Casos obrigatórios: tecla simples, rajada (bounce), 23 teclas simultâneas, todas as 120,
   transição durante troca de coluna, reconexão após perda de link.
 
 ## Métricas para registrar

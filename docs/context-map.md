@@ -8,7 +8,7 @@
 
 ## 1. O que é o UniversalKeyboard
 
-Um **teclado físico full-size de 112 teclas em que cada keycap é uma tela**. O teclado se
+Um **teclado físico full-size de 120 teclas em que cada keycap é uma tela**. O teclado se
 apresenta ao computador host como um teclado USB HID padrão — nada é necessário instalar
 para digitar — mas o que aparece em cada tecla é dinâmico:
 
@@ -41,7 +41,7 @@ qual layout o host está usando. Ver §7.
 | **`uk-gui`** | Painel multiplataforma: gerencia o driver, define o que aparece nas telas, edita macros e layouts. **Detecta o layout ativo do host** (por SO e por fingerprint) e o envia ao teclado. | A definir — candidatos: Rust, C++, C + toolkit nativo | Host (Windows / Linux / macOS) |
 | **`uk-pi0`** | Daemon do controlador. Recebe eventos da malha, mantém estado, renderiza as teclas, aciona o driver de tela, expõe o teclado USB ao host. | C++17 (núcleo C17) | Raspberry Pi Zero 2W |
 | **`uk-sc-integration`** | Contrato e implementação do link entre o Pi e o Arduino da malha: protocolo, framing, CRC, máquinas de estado, **e o firmware do Arduino**. | C (núcleo portável + AVR) | Pi Zero 2W e ATmega |
-| *(hardware)* | Malha de 112 teclas, 112 displays, driver de tela, placa do Pi | — | bancada |
+| *(hardware)* | Malha de 120 teclas, 120 displays, 2 placas (matriz + controle) | — | bancada |
 
 Além dos três repos de produto, a raiz `UniversalKeyboard/` é um **repo guarda-chuva**: versiona
 `docs/` e `.github/` e registra cada subrepo como submódulo git (`.gitmodules` com URLs
@@ -71,11 +71,11 @@ flowchart TB
   subgraph KP["Teclado (Pi Zero 2W + Arduino)"]
     DMN["uk-pi0 daemon (C++)<br/>estado · render · HID · supervisao"]
     REN["motor de render<br/>framebuffer por tecla · fontes · atlas"]
-    DRV["driver de tela<br/>barramento dos 112 displays"]
+    DRV["driver de tela<br/>barramento dos 120 displays"]
     INT["uk-sc-integration (C)<br/>frame · CRC · resync · FSM"]
-    ARD["Arduino (AVR)<br/>scan 8x14 · debounce · NKRO"]
-    MTX["malha de 112 teclas<br/>com diodo por tecla"]
-    DSP["112 displays<br/>1 por keycap"]
+    ARD["Arduino (AVR)<br/>scan 6x23 · debounce · NKRO"]
+    MTX["malha de 120 teclas<br/>com diodo por tecla"]
+    DSP["120 displays<br/>1 por keycap"]
   end
 
   GUI -->|HID vendor-specific<br/>layout + config| DMN
@@ -102,7 +102,7 @@ flowchart TB
 
 1. `uk-gui` detecta SO + layout ativo do host (§7) — no arranque e em cada mudança.
 2. Envia ao teclado pelo canal vendor-specific: `layout_id`, variante, tabela de legendas.
-3. `uk-pi0` valida, persiste por fingerprint de host, e marca **todas** as 112 teclas como
+3. `uk-pi0` valida, persiste por fingerprint de host, e marca **todas** as 120 teclas como
    sujas.
 4. O renderizador faz uma atualização de tela cheia em background, priorizando a linha da
    tecla que o usuário acabou de acionar.
@@ -111,19 +111,19 @@ flowchart TB
 
 ## 4. Restrição numérica que define o projeto
 
-Um display de 128×128 em RGB565 ocupa **32.768 bytes**. Multiplicado por 112 teclas:
+Um display de 128×128 em RGB565 ocupa **32.768 bytes**. Multiplicado por 120 teclas:
 
 | Operação | Dados | Tempo a 40 MHz SPI (~5 MB/s) |
 |---|---|---|
 | Atualizar **1** tecla | 32 KB | ~6,5 ms |
 | Atualizar **10** teclas | 320 KB | ~65 ms |
-| **Tela cheia** (112 teclas) | 3,67 MB | **~730 ms** |
+| **Tela cheia** (120 teclas) | 3,93 MB | **~786 ms** |
 
 Conclusões que o código deve respeitar:
 
 - **Nunca** redesenhar a tela inteira em resposta a um evento de tecla.
 - Toda atualização é **incremental e por tecla suja** (dirty-key), com fila e *coalescing*.
-- Troca de layout é aceitável a ~730 ms, **desde que em background** e sem bloquear o
+- Troca de layout é aceitável a ~786 ms, **desde que em background** e sem bloquear o
   caminho de digitação.
 - Animação só é viável em poucas teclas simultâneas. O orçamento é explícito, não implícito.
 - Se o barramento real entregar menos que 5 MB/s, o orçamento muda: **medir antes de assumir**.
@@ -145,7 +145,7 @@ Conclusões que o código deve respeitar:
 ### Arduino / AVR
 
 - Alvo: ATmega328P (Uno/Nano) ou ATmega32U4 (Micro). `[A VALIDAR]`
-- 112 teclas ⇒ matriz **8 linhas × 14 colunas**, com **um diodo por tecla** (anti-ghosting).
+- 120 teclas ⇒ matriz **6 linhas × 23 colunas**, com **um diodo por tecla** (anti-ghosting).
 - Compilador: `avr-gcc` (C11, `-Os`). Build via `arduino-cli` ou `Makefile`.
 - RAM: 2 KB no 328P — orçamento apertado, sem `String`, sem alocação dinâmica.
 
@@ -199,7 +199,7 @@ Canal de controle, separado da interface de teclado. `[A VALIDAR]` — definir e
 ### 6.3 `uk-pi0` ↔ host (USB HID)
 
 - Interface 0: teclado **boot protocol** (para BIOS/UEFI e KVM funcionarem).
-- Interface 1: **report protocol** com bitmap NKRO de 112 bits — usado quando o host
+- Interface 1: **report protocol** com bitmap NKRO de 120 bits — usado quando o host
   suporta.
 - Interface 2: **vendor-specific** (§6.2).
 - Regra dura: nunca enviar modificador sem keycode correspondente; sempre enviar
@@ -325,7 +325,7 @@ Prefixos: `uk_` para símbolo exportado, `UK_` para macro pública.
 | `cpp-daemon` | C++ do daemon: RAII, sinais, systemd |
 | `assembly` | Assembly AVR / ARM |
 | `arduino-firmware` | Sketch, build AVR, upload |
-| `input-matrix` | Scan 8×14, debounce, diodos, NKRO |
+| `input-matrix` | Scan 6×23, debounce, diodos, NKRO |
 | `display-pipeline` | Driver de tela, fila, dirty-key, orçamento de banda |
 | `key-rendering` | Composição da imagem da tecla, fontes, atlas |
 | `layout-adaptation` | Detecção de layout no host, tabelas usage→legenda, ABNT2 vs US |
@@ -362,7 +362,8 @@ Raspberry Pi OS, stack do `uk-gui` — **perguntar**, nunca assumir.
 | 4 | Modelo/part number do display e barramento (SPI direto, shift-register, controlador dedicado) | `display-pipeline`, `uk-gui` (preview), driver | — |
 | 5 | Barramento do Pi: 32-bit (`armhf`) ou 64-bit (`arm64`) | `cross-build`, systemd unit | — |
 | 6 | AVR escolhido: ATmega328P ou ATmega32U4 | `arduino-firmware`, `input-matrix` | — |
-| 7 | Pinagem da malha 8×14 e do barramento de display | `input-matrix`, firmware, bancada | — |
+| 10 | Revisar ADR-0002: 57600 baud (3V3) vs 921600 (5V) | firmware, daemon | ADR-0002 |
+| 7 | Pinagem da malha 6×23 e do barramento de display | `input-matrix`, firmware, bancada | — |
 | 8 | Conjunto inicial de layouts suportados (ABNT2, ANSI US, …) | `layout-adaptation`, `key-rendering` | — |
 | 9 | Protocolo de update de firmware (DFU / bootloader / via Pi) | `workflow-release` | — |
 

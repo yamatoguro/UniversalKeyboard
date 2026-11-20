@@ -29,7 +29,7 @@ description: |
 - [ ] Todo índice é validado antes da escrita?
 - [ ] Todo `LEN`/tamanho vindo de fora é validado contra a capacidade?
 - [ ] CRC é verificado antes de copiar payload?
-- [ ] Buffer estático dimensionado para o pior caso (112 teclas simultâneas)?
+- [ ] Buffer estático dimensionado para o pior caso (120 teclas simultâneas)?
 
 **P1 — tempo real**
 

@@ -18,7 +18,7 @@ description: |
 | Interface | Classe | Função | Obrigatória |
 |---|---|---|---|
 | 0 | HID boot keyboard | digitação | sim |
-| 1 | HID report NKRO | bitmap 112 bits | recomendada |
+| 1 | HID report NKRO | bitmap 120 bits | recomendada |
 | 2 | HID vendor-defined | layout, macros, imagens, stats | sim (para o `uk-gui`) |
 
 - Host que só fala boot protocol deve funcionar sem configuração.

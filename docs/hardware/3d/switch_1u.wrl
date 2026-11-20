@@ -1,0 +1,13 @@
+#VRML V2.0 utf8
+# Placeholder do switch Cherry MX 1u: 15.6 x 15.6 x 11.4 mm
+Transform {
+  translation 0 2.2441 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material { diffuseColor 0.22 0.22 0.26 ambientIntensity 0.35 }
+      }
+      geometry Box { size 6.1417 4.4882 6.1417 }
+    }
+  ]
+}

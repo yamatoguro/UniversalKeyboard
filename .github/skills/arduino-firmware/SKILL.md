@@ -1,7 +1,7 @@
 ---
 name: arduino-firmware
 description: |
-  Procedimento para o firmware do Arduino que varre a matriz de 112 teclas: estrutura setup/loop, board_pins.h, orçamento de RAM, build com arduino-cli, upload e verificação de uso de flash/RAM.
+  Procedimento para o firmware do Arduino que varre a matriz de 120 teclas: estrutura setup/loop, board_pins.h, orçamento de RAM, build com arduino-cli, upload e verificação de uso de flash/RAM.
   Triggers: "arduino", "firmware", "sketch", "ino", "arduino-cli", "fqbn", "upload", "avr-gcc", "PROGMEM", "RAM", "flash", "board_pins", "ATmega".
   NOT for: lógica da matriz em si (use input-matrix), frame serial (use serial-link).
 ---
@@ -48,7 +48,7 @@ void loop()
 
 | Item | Bytes |
 |---|---|
-| Bitmap de 112 teclas | 14 |
+| Bitmap de 120 teclas | 14 |
 | Debounce por tecla (1 B estado + 4 B timestamp) | 560 |
 | Buffer de TX | 64–128 |
 | Buffer de RX | 64 |
@@ -87,7 +87,7 @@ arduino-cli upload  --fqbn arduino:avr:uno --port /dev/ttyACM0 firmware/
 - [ ] Sem `delay()` no `loop()`.
 - [ ] Perda de link libera estado.
 - [ ] Reconexão não emite evento fantasma.
-- [ ] Todas as 112 teclas testadas individualmente.
+- [ ] Todas as 120 teclas testadas individualmente.
 
 ## Não faça
 

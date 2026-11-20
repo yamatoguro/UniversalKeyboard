@@ -1,5 +1,5 @@
 ---
-description: 'Regras para o pipeline de exibição: 112 displays, orçamento de banda, atualização por tecla suja, fila com coalescing e degradação graciosa.'
+description: 'Regras para o pipeline de exibição: 120 displays, orçamento de banda, atualização por tecla suja, fila com coalescing e degradação graciosa.'
 applyTo: '**/display/**, **/render/**, **/*display*.{c,h,cpp,hpp}, **/*render*.{c,h,cpp,hpp}, **/display_driver*.{c,h,cpp,hpp}'
 ---
 
@@ -11,7 +11,7 @@ applyTo: '**/display/**, **/render/**, **/*display*.{c,h,cpp,hpp}, **/*render*.{
 |---|---|---|
 | 1 tecla (128×128 RGB565) | 32 KB | ~6,5 ms |
 | 10 teclas | 320 KB | ~65 ms |
-| 112 teclas (tela cheia) | 3,67 MB | **~730 ms** |
+| 120 teclas (tela cheia) | 3,93 MB | **~786 ms** |
 
 Regra derivada: **tela cheia só em troca de layout, tema ou boot — sempre em background.**
 

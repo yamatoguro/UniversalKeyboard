@@ -1,6 +1,6 @@
 # UniversalKeyboard — instruções do projeto
 
-Teclado físico full-size de **112 teclas, cada keycap com sua própria tela**, cujo layout
+Teclado físico full-size de **120 teclas, cada keycap com sua própria tela**, cujo layout
 exibido se adapta ao host (ABNT2, ANSI US, …). Três repositórios: `uk-gui` (painel no host),
 `uk-pi0` (daemon no Pi Zero 2W), `uk-sc-integration` (contrato Pi↔Arduino + firmware).
 
@@ -25,7 +25,7 @@ Não tente inferir o layout dentro do firmware nem do daemon.
 
 - Link perdido, timeout, exceção, `SIGTERM`/`SIGINT` ou watchdog ⇒ liberar todas as
   teclas/modificadores, entrar em `SAFE`.
-- **Nunca** redesenhar as 112 teclas por evento de tecla; atualização é por tecla suja.
+- **Nunca** redesenhar as 120 teclas por evento de tecla; atualização é por tecla suja.
 - Sem alocação dinâmica após init no MCU.
 - ISR curta: sem log, sem bloqueio, sem `malloc`, sem espera ativa.
 - Dado compartilhado com ISR: `volatile` + seção crítica (ou atômico).

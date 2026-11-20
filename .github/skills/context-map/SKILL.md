@@ -1,7 +1,7 @@
 ---
 name: context-map
 description: |
-  Mapa de contexto do UniversalKeyboard: teclado de 112 teclas com tela por keycap, layout adaptativo ao host. Define repos, fronteiras, contratos, orçamentos e decisões pendentes.
+  Mapa de contexto do UniversalKeyboard: teclado de 120 teclas com tela por keycap, layout adaptativo ao host. Define repos, fronteiras, contratos, orçamentos e decisões pendentes.
   Triggers: "contexto do projeto", "onde fica", "qual repo", "fronteira", "arquitetura geral", "visão do projeto", "context map", "onboarding".
   Use no início de qualquer sessão e antes de mudanças que cruzam repositórios.
   NOT for: detalhe de implementação de um módulo específico (use a skill do módulo).
@@ -13,7 +13,7 @@ Fonte de verdade: [`docs/context-map.md`](../../../docs/context-map.md). Leia-o.
 
 ## Resumo operacional
 
-**Produto:** teclado físico full-size de 112 teclas, cada keycap com display próprio. O
+**Produto:** teclado físico full-size de 120 teclas, cada keycap com display próprio. O
 layout exibido se adapta ao computador conectado (ABNT2, ANSI US, …). O host vê um teclado
 USB HID padrão.
 
@@ -48,7 +48,7 @@ uk-sc-integration (contrato) → firmware AVR → uk-pi0 → uk-gui
 |---|---|
 | 1 tecla | ~6,5 ms |
 | 10 teclas | ~65 ms |
-| 112 teclas (tela cheia) | ~730 ms |
+| 120 teclas (tela cheia) | ~786 ms |
 
 Consequência: atualização é **sempre por tecla suja**. Tela cheia só em troca de
 layout/tema/boot, em background.
@@ -61,7 +61,7 @@ layout/tema/boot, em background.
 4. Display: modelo, resolução e barramento.
 5. Pi: `armhf` ou `arm64`.
 6. AVR: ATmega328P ou ATmega32U4.
-7. Pinagem da matriz 8×14 e do barramento de display.
+7. Pinagem da matriz 6×23 e do barramento de display.
 8. Layouts suportados no v1.
 9. Protocolo de update de firmware.
 

@@ -10,7 +10,7 @@
 
 O `uk-gui` é o painel multiplataforma do teclado: detecta o layout ativo do SO do host,
 envia-o ao teclado pelo canal HID vendor-specific, edita macros e layouts e pré-visualiza
-as 112 teclas.
+as 120 teclas.
 
 Requisitos declarados pelo autor:
 
@@ -24,7 +24,7 @@ Análise que separa os requisitos em dois caminhos distintos:
 | Caminho | Necessidade real | Consequência |
 |---|---|---|
 | **I/O de sistema** — ler layout ativo, falar HID bruto | Precisa de chamada direta à API do SO, latência baixa, sem runtime intermediário | Aqui "próximo do kernel" é requisito de verdade |
-| **Interface de edição** — 112 pré-visualizações, editor de macro | Precisa de UI responsiva; 112 tiles são leves para qualquer toolkit | Aqui "próximo do kernel" não traz benefício mensurável |
+| **Interface de edição** — 120 pré-visualizações, editor de macro | Precisa de UI responsiva; 120 tiles são leves para qualquer toolkit | Aqui "próximo do kernel" não traz benefício mensurável |
 
 Conclusão da análise: o requisito de performance se aplica ao **caminho de I/O**, não à UI.
 Escolher uma stack pesada para a UI não viola o requisito, desde que o núcleo de I/O seja

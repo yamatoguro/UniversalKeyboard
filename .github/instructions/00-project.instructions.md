@@ -39,7 +39,7 @@ Nunca quebre o contrato sem versioná-lo.
 5. Sem `delay()`/`sleep()` no caminho de evento.
 6. Entrada externa validada: tamanho, faixa, CRC.
 7. Sem segredo, chave ou IP privado versionado.
-8. **Nunca** atualizar 112 teclas por evento de tecla (orçamento: ~730 ms por tela cheia).
+8. **Nunca** atualizar 120 teclas por evento de tecla (orçamento: ~786 ms por tela cheia).
 
 ## Estilo de mudança
 

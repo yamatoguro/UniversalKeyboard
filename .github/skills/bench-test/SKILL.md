@@ -16,7 +16,7 @@ Assembly, HID ou driver de display** sem bancada.
 ## Equipamento mínimo
 
 - Pi Zero 2W com o teclado montado.
-- Arduino com a matriz completa (112 teclas).
+- Arduino com a matriz completa (120 teclas).
 - Host de teste (idealmente 2: um moderno, um com BIOS legada).
 - Analisador lógico (pelo menos 8 canais).
 - Osciloscópio (para settle da matriz e integridade do barramento).
@@ -24,8 +24,8 @@ Assembly, HID ou driver de display** sem bancada.
 
 ## Checklist de bring-up (ordem)
 
-1. **Alimentação**: tensão estável em carga máxima dos 112 displays; sem brownout no boot.
-2. **Matriz**: cada uma das 112 teclas individualmente; depois pares e tríades simultâneas
+1. **Alimentação**: tensão estável em carga máxima dos 120 displays; sem brownout no boot.
+2. **Matriz**: cada uma das 120 teclas individualmente; depois pares e tríades simultâneas
    (verifica diodo).
 3. **Scan**: medir duração completa; registrar min/média/máx.
 4. **Barramento de display**: medir vazão real; registrar bytes/s. Comparar com o orçamento.

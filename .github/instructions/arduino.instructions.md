@@ -1,5 +1,5 @@
 ---
-description: 'Regras para firmware AVR/Arduino: laço não bloqueante, pinagem centralizada, scan de matriz 8x14, debounce por timestamp e orçamento de RAM.'
+description: 'Regras para firmware AVR/Arduino: laço não bloqueante, pinagem centralizada, scan de matriz 6x23, debounce por timestamp e orçamento de RAM.'
 applyTo: '**/*.ino, **/firmware/**, **/*.pde'
 ---
 
@@ -37,7 +37,7 @@ static_assert(PIN_ROW0 != PIN_UART_TX, "conflito de pino: ROW0 vs UART TX");
 
 - Pino de saída inicia em nível seguro antes de virar saída.
 
-## Matriz 8×14 (112 teclas)
+## Matriz 6×23 (120 teclas)
 
 - Colunas dirigidas uma por vez, linhas lidas com pull-up; **um diodo por tecla**.
 - Tempo de acomodação entre acionar coluna e ler linha: constante nomeada
@@ -50,7 +50,7 @@ static_assert(PIN_ROW0 != PIN_UART_TX, "conflito de pino: ROW0 vs UART TX");
 
 ## RAM (2 KB no ATmega328P)
 
-- Conte cada buffer global. `112 bits` de estado = 14 bytes; o resto é orçamento real.
+- Conte cada buffer global. `120 bits` de estado = 15 bytes; o resto é orçamento real.
 - String literal em `F()`/`PROGMEM`; não deixe crescer `.data`.
 - Sem `String`. `char[]` de tamanho fixo.
 - Verifique no build: `avr-size --format=avr --mcu=...`

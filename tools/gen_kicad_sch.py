@@ -38,9 +38,12 @@ LIB_MAP = {
     "U1": "MCU_Microchip_ATmega:ATmega328P-P",
     "U2": "74xx:74HC595",
     "U3": "74xx:74HC595",
-    "U4": "74xx:74HC165",
+    "U4": "74xx:74HC595",
+    "U5": "74xx:74HC165",
     "J1": "Connector_Generic:Conn_01x06",
     "J2": "Connector_Generic:Conn_01x06",
+    "J3": "Connector_Generic:Conn_02x17_Odd_Even",
+    "J4": "Connector_Generic:Conn_02x17_Odd_Even",
     "Y1": "Device:Crystal",
     "R1": "Device:R",
     "R2": "Device:R",
@@ -218,39 +221,47 @@ def lib_id_for(ref: str) -> str:
 def layout(comps: dict[str, str]) -> dict[str, tuple[float, float]]:
     pos: dict[str, tuple[float, float]] = {}
 
-    # bloco de controle no topo
-    pos["J1"] = (60.0, 60.0)
-    pos["J2"] = (60.0, 100.0)
-    pos["U1"] = (170.0, 95.0)
-    pos["Y1"] = (110.0, 140.0)
-    pos["R1"] = (95.0, 60.0)
-    pos["R2"] = (250.0, 45.0)
-    pos["LED1"] = (280.0, 45.0)
-    pos["U2"] = (330.0, 80.0)
-    pos["U3"] = (390.0, 80.0)
-    pos["U4"] = (330.0, 140.0)
+    # bloco de controle no topo do A0
+    pos["J1"] = (60.0, 50.0)
+    pos["J2"] = (60.0, 90.0)
+    pos["J3"] = (60.0, 140.0)
+    pos["J4"] = (60.0, 190.0)
+    pos["U1"] = (170.0, 110.0)
+    pos["Y1"] = (110.0, 150.0)
+    pos["R1"] = (110.0, 50.0)
+    pos["R2"] = (250.0, 40.0)
+    pos["LED1"] = (285.0, 40.0)
+    pos["U2"] = (340.0, 70.0)
+    pos["U3"] = (400.0, 70.0)
+    pos["U4"] = (460.0, 70.0)
+    pos["U5"] = (340.0, 140.0)
 
     for i, ref in enumerate(sorted(r for r in comps if re.fullmatch(r"C\d+", r))):
-        pos[ref] = (440.0 + (i % 4) * 22.0, 60.0 + (i // 4) * 28.0)
-
-    # pull-downs discretos das linhas
+        pos[ref] = (520.0 + (i % 4) * 26.0, 50.0 + (i // 4) * 30.0)
     for i, ref in enumerate(sorted((r for r in comps if re.fullmatch(r"R\d+", r)),
                                    key=lambda r: int(r[1:]))):
         if ref in pos:
             continue
-        pos[ref] = (470.0 + (i % 4) * 22.0, 150.0 + (i // 4) * 26.0)
+        pos[ref] = (520.0 + (i % 4) * 26.0, 150.0 + (i // 4) * 26.0)
 
-    # matriz: 14 colunas x 8 linhas de (SW, D)
-    x0, y0 = 40.0, 230.0
-    for c in range(14):
-        for r in range(8):
-            k = c * 8 + r
-            pos[f"SW{k}"] = (x0 + c * 82.0, y0 + r * 46.0)
-            pos[f"D{k}"] = (x0 + c * 82.0 + 26.0, y0 + r * 46.0)
+    # matriz: 23 colunas x 6 linhas de pares (SW, D)
+    keys = sorted((r for r in comps if r.startswith("SW")),
+                  key=lambda r: int(r[2:]))
+    COLS, ROWS = 23, 6
+    x0, y0 = 40.0, 250.0
+    step_x, step_y = 48.0, 40.0
+    for k, sw in enumerate(keys):
+        c, r = k // ROWS, k % ROWS
+        if c >= COLS:
+            raise KeyError(f"matriz excede {COLS} colunas no esquema: {sw}")
+        x = x0 + c * step_x
+        y = y0 + r * step_y
+        pos[sw] = (x, y)
+        pos["D" + sw[2:]] = (x + 16.0, y)
 
     missing = [r for r in comps if r not in pos]
     if missing:
-        raise KeyError(f"sem posicao para: {missing[:5]}")
+        raise KeyError(f"sem posicao para: {missing[:6]}")
     return pos
 
 

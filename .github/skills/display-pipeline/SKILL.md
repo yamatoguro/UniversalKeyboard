@@ -1,7 +1,7 @@
 ---
 name: display-pipeline
 description: |
-  Procedimento para levar imagem a 112 displays: orçamento de banda medido, atualização por tecla suja, fila com coalescing, driver abstraído, DMA/SPI e degradação graciosa quando o barramento falha.
+  Procedimento para levar imagem a 120 displays: orçamento de banda medido, atualização por tecla suja, fila com coalescing, driver abstraído, DMA/SPI e degradação graciosa quando o barramento falha.
   Triggers: "display", "tela", "painel", "driver de tela", "SPI", "I2C", "DMA", "framebuffer", "refresh", "dirty", "tearing", "VSYNC", "banda", "render".
   NOT for: composição visual da tecla (use key-rendering), HID (use hid-gadget).
 ---
@@ -14,7 +14,7 @@ description: |
 |---|---|---|
 | 1 tecla 128×128 RGB565 | 32 KB | ~6,5 ms |
 | 10 teclas | 320 KB | ~65 ms |
-| 112 teclas | 3,67 MB | **~730 ms** |
+| 120 teclas | 3,93 MB | **~786 ms** |
 
 **Primeiro passo obrigatório:** medir a vazão real do barramento no hardware. `dd` no
 dispositivo, ou contador de bytes/segundo no driver. Registre o número em log de boot.
@@ -56,7 +56,7 @@ O resto do sistema nunca vê o barramento. Trocar o painel = trocar essa struct.
 - Fila de capacidade fixa (`UK_RENDER_QUEUE_CAPACITY`), sem alocação.
 - Cheia ⇒ funde com entrada pendente da mesma tecla; se não existir, **descarta a mais
   antiga**. Nunca bloqueia o produtor.
-- Bitset `dirty` de 112 bits é a fonte de verdade; a fila é só ordenação de prioridade.
+- Bitset `dirty` de 120 bits é a fonte de verdade; a fila é só ordenação de prioridade.
 - Ao fim do ciclo, limpar apenas os bits efetivamente desenhados.
 
 ## Orçamento por ciclo

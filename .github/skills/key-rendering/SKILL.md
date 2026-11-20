@@ -42,7 +42,7 @@ fundo do tema (cacheado, por tecla ou por atlas de variantes)
   recombine o que muda.
 - Texto sempre via atlas de glifos — nunca rasterize fonte em runtime no Pi.
 - Legenda secundária depende do modificador: se Shift pressiona, várias teclas ficam sujas
-  de uma vez. É aceitável: são 112 bits de dirty, não 112 renderizações obrigatórias.
+  de uma vez. É aceitável: são 120 bits de dirty, não 120 renderizações obrigatórias.
 
 ## Dirty-rect dentro da tecla
 
