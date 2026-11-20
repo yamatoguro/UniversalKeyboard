@@ -1,0 +1,12 @@
+[submodule "uk-gui"]
+	path = uk-gui
+	url = ../uk-gui.git
+	branch = main
+[submodule "uk-pi0"]
+	path = uk-pi0
+	url = ../uk-pi0.git
+	branch = main
+[submodule "uk-sc-integration"]
+	path = uk-sc-integration
+	url = ../uk-sc-integration.git
+	branch = main
