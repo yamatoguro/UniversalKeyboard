@@ -58,7 +58,9 @@ add_comp("R1", "10k", "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm",
          "Pull-up de RESET")
 add_comp("R2", "330R", "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm",
          "Serie do LED de status")
-add_comp("RN1", "8x10k", "Resistor_THT:R_Array_SIP9", "Pull-down das linhas 0-7")
+for r in range(ROWS):
+    add_comp(f"R{3 + r}", "10k", "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm",
+             f"Pull-down da ROW{r}")
 add_comp("LED1", "LED", "LED_THT:LED_D3.0mm", "Status do link")
 
 add_comp("J1", "Conn_01x06", "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical",
@@ -155,8 +157,8 @@ for c in range(COLS):
 for r in range(ROWS):
     pin = next(p for p, i in SR165_IN.items() if i == r)
     connect(f"ROW{r}", "U4", pin)
-    connect(f"ROW{r}", "RN1", str(r + 2))
-connect("GND", "RN1", "1")
+    connect(f"ROW{r}", f"R{3 + r}", "1")
+    connect("GND", f"R{3 + r}", "2")
 
 # Matriz: COL -> SW -> anodo D -> catodo D -> ROW
 for c in range(COLS):

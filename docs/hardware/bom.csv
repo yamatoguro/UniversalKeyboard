@@ -13,7 +13,14 @@ C6,100nF,Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm,Desacoplamento U4
 C7,10uF,Capacitor_THT:CP_Radial_D5.0mm_P2.00mm,Bulk da rail 3V3
 R1,10k,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm,Pull-up de RESET
 R2,330R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm,Serie do LED de status
-RN1,8x10k,Resistor_THT:R_Array_SIP9,Pull-down das linhas 0-7
+R3,10k,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm,Pull-down da ROW0
+R4,10k,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm,Pull-down da ROW1
+R5,10k,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm,Pull-down da ROW2
+R6,10k,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm,Pull-down da ROW3
+R7,10k,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm,Pull-down da ROW4
+R8,10k,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm,Pull-down da ROW5
+R9,10k,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm,Pull-down da ROW6
+R10,10k,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm,Pull-down da ROW7
 LED1,LED,LED_THT:LED_D3.0mm,Status do link
 J1,Conn_01x06,Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical,"Link Pi: 3V3, GND, PiTX, PiRX, spare, GND"
 J2,Conn_01x06,Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical,"ICSP: RESET, 3V3, GND e debug"

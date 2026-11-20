@@ -1,0 +1,14 @@
+# Artefatos de build
+build/
+build-*/
+*.o
+*.elf
+*.hex
+
+# KiCad: caches e backups locais (os artefatos gerados sao versionados de proposito)
+*-backups/
+*.kicad_prl
+*.kicad_sch-bak
+_autosave-*
+fp-info-cache
+*.lck

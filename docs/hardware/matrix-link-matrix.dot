@@ -1,0 +1,59 @@
+digraph g {
+  graph [rankdir=TB, fontname="Helvetica", fontsize=11, bgcolor="white",
+         pad=0.5, nodesep=0.45, ranksep=1.0,
+         label="Matriz 8x14 — detalhe da COL0", labelloc=t, fontsize=15];
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=10];
+  edge [fontname="Helvetica", fontsize=8, color="#475569"];
+
+  "COL" [shape=box, style="rounded,filled", fillcolor="#dbeafe", color="#1e40af", label="COL0\n(saida do 74HC595)"];
+  "GND" [shape=box, style="rounded,filled", fillcolor="#f1f5f9", color="#475569", label="pull-down 10k\n+ entrada do 74HC165"];
+
+  { rank=same;
+    "SW0" [label="SW0\nchave", fillcolor="#ecfdf5", color="#065f46"];
+    "SW1" [label="SW1\nchave", fillcolor="#ecfdf5", color="#065f46"];
+    "SW2" [label="SW2\nchave", fillcolor="#ecfdf5", color="#065f46"];
+    "SW3" [label="SW3\nchave", fillcolor="#ecfdf5", color="#065f46"];
+    "SW4" [label="SW4\nchave", fillcolor="#ecfdf5", color="#065f46"];
+    "SW5" [label="SW5\nchave", fillcolor="#ecfdf5", color="#065f46"];
+    "SW6" [label="SW6\nchave", fillcolor="#ecfdf5", color="#065f46"];
+    "SW7" [label="SW7\nchave", fillcolor="#ecfdf5", color="#065f46"];
+  }
+  { rank=same;
+    "D0" [label="D0\nBAT54", fillcolor="#fef3c7", color="#92400e"];
+    "D1" [label="D1\nBAT54", fillcolor="#fef3c7", color="#92400e"];
+    "D2" [label="D2\nBAT54", fillcolor="#fef3c7", color="#92400e"];
+    "D3" [label="D3\nBAT54", fillcolor="#fef3c7", color="#92400e"];
+    "D4" [label="D4\nBAT54", fillcolor="#fef3c7", color="#92400e"];
+    "D5" [label="D5\nBAT54", fillcolor="#fef3c7", color="#92400e"];
+    "D6" [label="D6\nBAT54", fillcolor="#fef3c7", color="#92400e"];
+    "D7" [label="D7\nBAT54", fillcolor="#fef3c7", color="#92400e"];
+  }
+
+  "COL" -> "SW0";
+  "SW0" -> "D0" [label="R0"];
+  "D0" -> "GND";
+  "COL" -> "SW1";
+  "SW1" -> "D1" [label="R1"];
+  "D1" -> "GND";
+  "COL" -> "SW2";
+  "SW2" -> "D2" [label="R2"];
+  "D2" -> "GND";
+  "COL" -> "SW3";
+  "SW3" -> "D3" [label="R3"];
+  "D3" -> "GND";
+  "COL" -> "SW4";
+  "SW4" -> "D4" [label="R4"];
+  "D4" -> "GND";
+  "COL" -> "SW5";
+  "SW5" -> "D5" [label="R5"];
+  "D5" -> "GND";
+  "COL" -> "SW6";
+  "SW6" -> "D6" [label="R6"];
+  "D6" -> "GND";
+  "COL" -> "SW7";
+  "SW7" -> "D7" [label="R7"];
+  "D7" -> "GND";
+
+  "note" [shape=note, style=filled, fillcolor="#fffbeb", color="#d97706",
+          label="key_idx = coluna * 8 + linha\lFluxo: COL alto -> SW fechada -> diodo -> ROW sobe (3,0V)\lDiodo impede ghosting com 3+ teclas\l"];
+}

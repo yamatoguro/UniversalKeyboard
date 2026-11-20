@@ -1,14 +1,20 @@
 # Esboço — matriz de 112 teclas e link com o Pi Zero 2W
 
-> **Status:** esboço para revisão. **Não** foi simulado nem montado em bancada, e os
-> arquivos gerados **não** foram abertos no KiCad. Trate como ponto de partida, não como
-> esquema validado.
+> **Status:** esboço para revisão. **Não** foi simulado nem montado em bancada. O esquema
+> KiCad **abre, plota e passa ERC** (0 erros elétricos), mas não foi roteado nem conferido
+> por um humano. Trate como ponto de partida, não como projeto validado.
 >
-> Artefatos gerados: [`matrix-link.net`](matrix-link.net) (netlist KiCad) e
-> [`bom.csv`](bom.csv), ambos produzidos por
-> [`tools/gen_hw_netlist.py`](../../tools/gen_hw_netlist.py). Não edite os gerados à mão.
-
----
+> Artefatos, todos **gerados** — não edite à mão:
+>
+> | Artefato | Gerado por | O que é |
+> |---|---|---|
+> | [`universal-keyboard.kicad_sch`](universal-keyboard.kicad_sch) | [`tools/gen_kicad_sch.py`](../../tools/gen_kicad_sch.py) | **esquema KiCad** com 249 símbolos |
+> | [`svg/universal-keyboard.svg`](svg/universal-keyboard.svg) | `kicad-cli` | plot do esquema (A0) |
+> | [`matrix-link.net`](matrix-link.net) | [`tools/gen_hw_netlist.py`](../../tools/gen_hw_netlist.py) | netlist |
+> | [`bom.csv`](bom.csv) | idem | lista de materiais (249 itens) |
+> | [`matrix-link-*.dot`/`.svg`](matrix-link-block.dot) | [`tools/netlist_to_dot.py`](../../tools/netlist_to_dot.py) | diagramas de visão geral |
+>
+> Como abrir, editar e validar: §10.
 
 ## 1. A decisão que governa o desenho: quantos GPIO
 
@@ -284,3 +290,64 @@ Mapa completo e verificável: [`matrix-link.net`](matrix-link.net).
 
 Nenhum destes itens foi verificado. O documento descreve um desenho coerente, não um
 desenho testado.
+
+---
+
+## 10. Como visualizar e validar
+
+### Opção 1 — KiCad (completo)
+
+```bash
+sudo pacman -S kicad kicad-library
+kicad docs/hardware/universal-keyboard.kicad_sch
+```
+
+Dentro do KiCad: **Inspecionar → Regras de projeto (ERC)**. Resultado atual: **0 erros
+elétricos**, 2 avisos cosméticos (`lib_symbol_mismatch` em U1 e U4, porque esses símbolos
+`extends` outro na biblioteca).
+
+Validação por CLI, sem abrir a interface:
+
+```bash
+kicad-cli sch erc  docs/hardware/universal-keyboard.kicad_sch -o erc.rpt
+kicad-cli sch export svg docs/hardware/universal-keyboard.kicad_sch -o docs/hardware/svg
+```
+
+### Opção 2 — VS Code
+
+| Extensão | ID | Para quê |
+|---|---|---|
+| KiCad Studio Kit | `oaslananka.kicadstudiokit` | visualizar `.kicad_sch`, rodar DRC/ERC |
+| Graphviz Interactive Preview | `tintinweb.graphviz-interactive-preview` | visualizar os `.dot` com preview ao vivo |
+| Mermaid | `bierner.markdown-mermaid` | renderiza diagramas Mermaid no preview do Markdown |
+| Draw.io | `hediet.vscode-drawio` | desenhar à mão quando quiser anotar |
+
+Instalação:
+
+```bash
+code --install-extension oaslananka.kicadstudiokit
+code --install-extension tintinweb.graphviz-interactive-preview
+code --install-extension bierner.markdown-mermaid
+code --install-extension hediet.vscode-drawio
+```
+
+> **Limite honesto:** nenhuma extensão desenha um esquema a partir do `.net`. O `.net` é
+> netlist — lista de conexões, não desenho. Para ver um esquema é preciso o `.kicad_sch`
+> (que existe) ou o KiCad.
+
+### Regenerar depois de mudar o hardware
+
+```bash
+python3 tools/gen_hw_netlist.py     # netlist + BOM
+python3 tools/gen_kicad_sch.py      # esquema + plot + ERC
+python3 tools/netlist_to_dot.py --mode block  --render
+python3 tools/netlist_to_dot.py --mode matrix --render
+```
+
+Como os três scripts são determinísticos, o diff mostra exatamente o que mudou no hardware.
+
+⚠️ Se você editar o `.kicad_sch` dentro do KiCad, a próxima execução do gerador
+**sobrescreve** suas alterações. Nesse caso, mova a fonte da verdade para o esquema e pare
+de gerá-lo — ou registre a mudança em `gen_hw_netlist.py` primeiro.
+
+---
